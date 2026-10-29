@@ -14,9 +14,9 @@ Admission is a separate administrator workflow. A proposal freezes its eligible 
 
 - One Next.js application rather than multiple services before they are necessary. A future relay can begin as server-only route handlers and be extracted later.
 - Domain types do not import React, Next.js or Semaphore; this keeps UI and contract integration replaceable.
-- Preview examples live in an explicitly named feature file and have no transaction execution path.
+- Unimplemented proposal previews are removed from the interface; no placeholder data enters transaction paths.
 - No wallet connection is required to browse. The future relay, not the registered member wallet, submits a ballot.
-- No secret storage mechanism is chosen in Part 1. Browser persistence, recovery and XSS exposure must be addressed in Part 2 of Phase 1.
+- Browser identity persistence and encrypted recovery are implemented as described in Phase 1.2 below.
 - Proof libraries and artifacts will be pinned together when installed.
 - No invented MST RPC URL, chain ID or verifier address. Configure only verified deployments.
 
@@ -40,8 +40,24 @@ The admission authority can admit multiple memberships and is trusted to apply e
 
 ## Validation scope
 
-Current tests cover public domain time boundaries and tally arithmetic only. They do not establish cryptographic privacy or contract correctness. Add integration and adversarial tests as those modules are implemented.
+Current tests cover identity persistence and recovery, encrypted-backup tampering, public group consistency, and voting domain boundaries. They do not establish zero-knowledge privacy or contract correctness; those modules are not implemented yet.
 
 ## Tooling compatibility
 
 ESLint is pinned to 9.39.5 because the React, import and accessibility plugins shipped by eslint-config-next 16.4.3 do not yet declare ESLint 10 compatibility. Version 9 emits an end-of-support warning. Revisit this development-only pin when the plugin set supports the newer major version.
+
+## Phase 1.2 implementation
+
+- Identity module uses browser crypto randomness and Semaphore V4. Secret-bearing calls are confined to client components and isolated tests, never server actions.
+- sessionStorage holds the active identity and, only in the demo, five test secrets. It survives refresh; browser restoration/duplication can preserve it. It is not an encrypted vault.
+- Encrypted backup format v1: AES-256-GCM, PBKDF2-SHA256/310000, 16-byte random salt, 12-byte random IV and fixed authenticated application context. Strict size/version checks precede decryption. Secret/password values are never logged or transmitted by the application.
+- Public group operations reconstruct Semaphore's real Merkle root. They reject duplicate/out-of-field values and mismatched stored roots. These checks establish data consistency, not trusted admission.
+- ENABLE_LOCAL_DEMO gates the server route and navigation. It defaults off; .env.local enables it in this checkout. Restart/rebuild when changing it. Local approval is intentionally unauthenticated test tooling, not production authorization.
+- Public demo data persists separately in localStorage. Selection cannot silently overwrite an active identity. Reset keeps the active identity separate.
+- Placeholder proposal route, fictional ballot, progress cards and disabled feature controls were removed.
+- A same-major ws 8.21.0 override patches transitive websocket advisories introduced by the group package. No cryptographic implementation was replaced.
+- Phase 1.3 will add real proofs with these identity/group primitives; Rust is not required for the existing Semaphore JavaScript workflow.
+
+## Phase 1.3
+
+The proof worker consumes the browser-held identity and an immutable local snapshot. Only public proofs return to the UI. All submitted proofs are checked against the selected choice, expected root/depth and canonical local scope before verification. A local receipt ledger demonstrates nullifier reuse checks, but is explicitly not a cross-tab/browser security authority. See phase-1-3.md.

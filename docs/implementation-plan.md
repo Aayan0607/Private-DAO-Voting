@@ -58,3 +58,19 @@ Multiple DAOs, admission providers, richer proposal options and alternate EVM ne
 - Dependency audit reported zero known vulnerabilities at installation.
 - GitHub workflow added, but not yet run on GitHub. No code has been pushed.
 - Identities, proof generation, contracts and relay remain unimplemented, as scheduled for later parts.
+
+## Phase 1.2 verification — 28 October 2026
+
+- Implemented real Semaphore V4 identity and public group operations using JavaScript only; no Rust toolchain.
+- Added per-tab secret storage, encrypted backup/restore, and explicit confirmation before clearing local data.
+- Added opt-in demo workspace with five random identities and public commitment admission.
+- Removed roadmap/progress cards, the fake proposal and all disabled feature placeholders.
+- Twelve automated tests, lint, TypeScript and production build passed.
+- Browser checks: identity generation, refresh persistence, encrypted backup download, five-member group, independent non-member lookup, local approval and duplicate rejection.
+- Public group storage is not authorization. ZK proofs and on-chain voting remain Phase 1.3/Phase 2 work.
+- Disabled-demo check: /demo returned 404, the home page omitted its demo link, and /membership remained available.
+- Browser confirmation controls and selecting a generated test member were also exercised.
+
+## Phase 1.3 — 29 October 2026
+
+Implemented real browser-worker proof generation, verification, frozen group snapshots, choice/round binding, public proof download/import and local duplicate detection. See phase-1-3.md for validation and privacy boundaries. RPC and empty pairing-precompile checks passed; actual deployed-verifier compatibility and gas testing remain Phase 2.

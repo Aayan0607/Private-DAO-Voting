@@ -1,0 +1,14 @@
+{
+  "source": "https://snark-artifacts.pse.dev/semaphore/4.13.0",
+  "depth": 6,
+  "files": {
+    "semaphore-6.wasm": {
+      "sha256": "432293aa5c8e7d503148824ff17a8ad7318058a656af568837f30675d867827e",
+      "bytes": 1808368
+    },
+    "semaphore-6.zkey": {
+      "sha256": "24a7ef2c7f4c809a502e876cb3295535a73710ec7bc3827b5a15018e434a674a",
+      "bytes": 2038580
+    }
+  }
+}

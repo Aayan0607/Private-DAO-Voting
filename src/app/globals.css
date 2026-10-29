@@ -586,3 +586,362 @@ button:disabled {
     transition: background-color 0.15s ease;
   }
 }
+
+.home-boundary {
+  margin-top: 40px;
+}
+.field-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  margin: 20px 0 8px;
+}
+input,
+textarea {
+  display: block;
+  width: 100%;
+  border: 1px solid #a9bdb6;
+  border-radius: 8px;
+  padding: 12px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+}
+input:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
+  outline: 3px solid #bb6900;
+  outline-offset: 3px;
+}
+textarea {
+  resize: vertical;
+}
+.commitment,
+code {
+  font-family: ui-monospace, monospace;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+form .button {
+  margin-top: 20px;
+}
+.panel p {
+  color: var(--muted);
+}
+.feedback:empty {
+  display: none;
+}
+.feedback p {
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin: 0 0 22px;
+}
+.error-message {
+  color: #822923;
+  background: #fff0ed;
+  border: 1px solid #e5aaa4;
+}
+.success-message {
+  color: #145a45;
+  background: #e8f5ed;
+  border: 1px solid #b4d9c3;
+}
+.danger-zone {
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+  margin-top: 28px;
+}
+.text-button {
+  background: none;
+  border: none;
+  text-decoration: underline;
+  color: #7d3b28;
+  padding: 8px 0;
+  cursor: pointer;
+  font-size: 14px;
+}
+.member-list {
+  padding: 0;
+  list-style: none;
+}
+.member-list li {
+  border-top: 1px solid var(--line);
+  padding: 17px 0;
+}
+.member-list code {
+  display: block;
+  margin: 5px 0 12px;
+}
+.commitment-list {
+  padding-left: 20px;
+}
+.commitment-list li {
+  margin: 12px 0;
+}
+details {
+  margin: 20px 0;
+}
+summary {
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+[hidden] {
+  display: none !important;
+}
+.header-caption {
+  color: var(--muted);
+  font-size: 13px;
+}
+.welcome {
+  padding: 72px 0 48px;
+  max-width: 1000px;
+  margin: auto;
+  text-align: center;
+}
+.welcome-label {
+  display: inline-block;
+  border: 1px solid #cce2d8;
+  background: #eff7f4;
+  border-radius: 30px;
+  padding: 7px 16px;
+  color: var(--teal);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 24px;
+}
+.welcome h1 {
+  font-size: clamp(36px, 4.5vw, 59px);
+}
+.welcome .lead {
+  margin: 0 auto 25px;
+  max-width: 650px;
+}
+.start-button {
+  padding: 16px 26px;
+  box-shadow: 0 6px 18px #087e7218;
+}
+.welcome-hint {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 17px 0 42px;
+}
+.journey {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  list-style: none;
+  padding: 0;
+  gap: 18px;
+  text-align: left;
+}
+.journey li {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 26px;
+}
+.journey span {
+  display: block;
+  color: var(--teal);
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+.journey strong {
+  display: block;
+  font-size: 18px;
+}
+.journey p {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 0;
+}
+.scope-note {
+  margin-top: 30px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.scope-note p {
+  margin-top: 5px;
+}
+.workflow-intro {
+  max-width: 760px;
+  margin: auto;
+  padding: 42px 0 12px;
+}
+.workflow-intro h1 {
+  font-size: 38px;
+  margin-bottom: 12px;
+}
+.workflow-intro > p:last-child {
+  color: var(--muted);
+}
+.setup-steps {
+  display: flex;
+  list-style: none;
+  gap: 16px;
+  padding: 0;
+  margin: 18px auto 26px;
+  max-width: 760px;
+}
+.setup-steps li {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13px;
+  color: var(--muted);
+  padding-bottom: 15px;
+  border-bottom: 2px solid var(--line);
+}
+.setup-steps li span {
+  display: grid;
+  place-items: center;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  background: #eaf0ed;
+  flex-shrink: 0;
+}
+.setup-steps li[aria-current] {
+  color: var(--teal);
+  border-color: var(--teal);
+  font-weight: 700;
+}
+.setup-steps li[aria-current] span {
+  color: white;
+  background: var(--teal);
+}
+.workflow-content,
+.workflow-actions,
+.workflow-privacy,
+main:has(.workflow-intro) .feedback {
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.workflow-content .panel {
+  padding: 32px;
+  box-shadow: 0 8px 30px #142e3305;
+}
+.workflow-actions {
+  padding: 20px 0 28px;
+}
+.workflow-actions > p {
+  color: var(--muted);
+  font-size: 14px;
+}
+.workflow-privacy {
+  margin-bottom: 40px;
+  background: #f1f4f0;
+}
+.workflow-privacy p {
+  font-size: 13px;
+}
+.next-action {
+  border-top: 1px solid var(--line);
+  margin-top: 20px;
+  padding-top: 22px;
+}
+.next-action p {
+  color: var(--muted);
+  font-size: 14px;
+}
+@media (max-width: 720px) {
+  .header-caption {
+    display: none;
+  }
+  .welcome {
+    padding-top: 40px;
+  }
+  .journey {
+    grid-template-columns: 1fr;
+  }
+  .journey li {
+    padding: 22px;
+  }
+  .journey span {
+    margin-bottom: 8px;
+  }
+  .setup-steps {
+    gap: 8px;
+  }
+  .setup-steps li {
+    font-size: 11px;
+    gap: 5px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .workflow-content .panel {
+    padding: 24px;
+  }
+  .workflow-intro h1 {
+    font-size: 32px;
+  }
+}
+
+.proof-workspace {
+  max-width: 760px;
+  margin: 0 auto 40px;
+}
+.back-link {
+  color: var(--teal);
+  font-size: 14px;
+  margin: 8px 0 24px;
+}
+.proof-message {
+  padding: 16px 20px;
+  border-radius: 10px;
+}
+.ballot-options {
+  border: 0;
+  padding: 0;
+  margin: 24px 0;
+}
+.ballot-options legend {
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.ballot-options label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 15px;
+  margin: 10px 0;
+  cursor: pointer;
+}
+.ballot-options label:has(input:checked) {
+  border-color: var(--teal);
+  background: var(--light);
+}
+.ballot-options input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--teal);
+}
+.verified-proof {
+  margin-top: 28px;
+  border-top: 1px solid var(--line);
+  padding-top: 22px;
+}
+.verified-proof h3 {
+  color: var(--teal);
+}
+.proof-json {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: #f3f6f3;
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  max-height: 360px;
+  overflow: auto;
+}
+.verifier-tools .button {
+  margin: 12px 8px 0 0;
+}

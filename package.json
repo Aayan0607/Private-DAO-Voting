@@ -14,9 +14,24 @@
     "test": "tsx --test tests/*.test.ts",
     "check": "npm run lint && npm run typecheck && npm test",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "proofs:prepare": "node scripts/prepare-proofs.mjs",
+    "test:proof": "tsx --test tests/proof.integration.test.ts",
+    "prebuild": "npm run proofs:prepare",
+    "predev": "npm run proofs:prepare",
+    "pretest": "npm run proofs:prepare",
+    "pretest:proof": "npm run proofs:prepare",
+    "chain:compile": "node scripts/chain/compile.mjs",
+    "chain:test": "npm run proofs:prepare && node scripts/chain/test.mjs",
+    "chain:node": "hardhat node --hostname 127.0.0.1",
+    "chain:deploy": "node scripts/chain/deploy-local.mjs"
   },
   "dependencies": {
+    "@semaphore-protocol/contracts": "4.14.5",
+    "@semaphore-protocol/group": "4.14.5",
+    "@semaphore-protocol/identity": "4.14.5",
+    "@semaphore-protocol/proof": "4.14.5",
+    "ethers": "6.13.4",
     "next": "16.4.3",
     "react": "19.3.1",
     "react-dom": "19.3.1"
@@ -27,8 +42,15 @@
     "@types/react-dom": "19.3.0",
     "eslint": "9.39.5",
     "eslint-config-next": "16.4.3",
+    "hardhat": "2.29.1",
     "prettier": "3.9.10",
+    "solc": "0.8.28",
     "tsx": "4.23.15",
     "typescript": "5.9.3"
+  },
+  "overrides": {
+    "ws": "8.21.0",
+    "underscore": "1.13.8",
+    "snarkjs": "0.7.5"
   }
 }
