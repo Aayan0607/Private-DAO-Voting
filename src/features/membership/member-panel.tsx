@@ -71,20 +71,17 @@ function MemberWorkspace({ demoEnabled }: { demoEnabled: boolean }) {
   return (
     <>
       <ol className="setup-steps" aria-label="Membership setup">
-        {[
-          "Your identity",
-          "Your backup",
-          "Your membership",
-          ...(demoEnabled ? ["Your proof"] : []),
-        ].map((label, index) => (
-          <li
-            key={label}
-            aria-current={step === index + 1 ? "step" : undefined}
-          >
-            <span>{index + 1}</span>
-            {label}
-          </li>
-        ))}
+        {["Your identity", "Your backup", "Your membership", "Your vote"].map(
+          (label, index) => (
+            <li
+              key={label}
+              aria-current={step === index + 1 ? "step" : undefined}
+            >
+              <span>{index + 1}</span>
+              {label}
+            </li>
+          ),
+        )}
       </ol>
       <div className="feedback" aria-live="polite">
         {error && (
@@ -236,6 +233,7 @@ function MemberWorkspace({ demoEnabled }: { demoEnabled: boolean }) {
           </h2>
           {identity ? (
             <form
+              key="backup"
               onSubmit={(event) => {
                 event.preventDefault();
                 void action(async () => {
@@ -285,6 +283,7 @@ function MemberWorkspace({ demoEnabled }: { demoEnabled: boolean }) {
             </form>
           ) : (
             <form
+              key="restore"
               onSubmit={(event) => {
                 event.preventDefault();
                 void action(async () => {
@@ -381,18 +380,18 @@ function MemberWorkspace({ demoEnabled }: { demoEnabled: boolean }) {
             >
               ← Back to backup
             </button>
-            {demoEnabled && (
+            {
               <div className="next-action">
-                <strong>Ready to prove your membership?</strong>
+                <strong>Ready to vote?</strong>
                 <p>
                   Use the admitted identity to generate a private membership
                   proof for a public Yes / No choice.
                 </p>
-                <Link className="button primary" href="/proof">
-                  Continue to zero-knowledge proof →
+                <Link className="button primary" href="/vote">
+                  Continue to proposals →
                 </Link>
               </div>
-            )}
+            }
             {demoEnabled && (
               <div className="next-action">
                 <strong>Need a group to join?</strong>

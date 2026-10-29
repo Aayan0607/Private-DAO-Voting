@@ -263,10 +263,15 @@ function DemoWorkspace() {
               Approve locally
             </button>
           </form>
+          <div className="actions">
+            <Link className="button primary" href="/admin">
+              Continue to proposal setup →
+            </Link>
+          </div>
           <p className="stage-note">
-            The root changes when membership changes. Voting proposals will
-            require an immutable snapshot; this editable local registry is not
-            an eligibility authority for live votes.
+            The root changes when membership changes. Voting proposals use an
+            immutable snapshot; this editable local registry is not an
+            eligibility authority for live votes.
           </p>
         </section>
       </div>

@@ -24,7 +24,12 @@
     "chain:compile": "node scripts/chain/compile.mjs",
     "chain:test": "npm run proofs:prepare && node scripts/chain/test.mjs",
     "chain:node": "hardhat node --hostname 127.0.0.1",
-    "chain:deploy": "node scripts/chain/deploy-local.mjs"
+    "chain:deploy": "node scripts/chain/deploy-local.mjs",
+    "test:e2e": "playwright test",
+    "predemo:start": "npm run proofs:prepare",
+    "demo:start": "node scripts/demo-start.mjs",
+    "demo:record": "node scripts/record-demo.mjs",
+    "test:disabled": "node scripts/check-disabled.mjs"
   },
   "dependencies": {
     "@semaphore-protocol/contracts": "4.14.5",
@@ -37,6 +42,7 @@
     "react-dom": "19.3.1"
   },
   "devDependencies": {
+    "@playwright/test": "1.64.1",
     "@types/node": "24.19.2",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",

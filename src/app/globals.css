@@ -945,3 +945,64 @@ main:has(.workflow-intro) .feedback {
 .verifier-tools .button {
   margin: 12px 8px 0 0;
 }
+
+select {
+  width: 100%;
+  font: inherit;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: white;
+  color: var(--ink);
+}
+.voting-panel {
+  margin-top: 24px;
+}
+.chain-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--muted);
+}
+.tally-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.tally-grid div {
+  background: var(--light);
+  padding: 18px;
+  border-radius: 12px;
+}
+.tally-grid span {
+  display: block;
+  font-size: 13px;
+}
+.tally-grid strong {
+  display: block;
+  font-size: 34px;
+  color: var(--teal);
+}
+.eligibility {
+  color: var(--teal) !important;
+  font-weight: 700;
+}
+.verified-proof .button {
+  margin-top: 16px;
+}
+select:focus-visible {
+  outline: 3px solid #bb6900;
+  outline-offset: 3px;
+}
+
+.verified-proof > code {
+  display: block;
+  overflow-wrap: anywhere;
+  margin: 10px 0;
+}
+.tally-grid strong {
+  font-variant-numeric: tabular-nums;
+}

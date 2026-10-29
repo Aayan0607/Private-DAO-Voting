@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import type { Metadata } from "next";
 import { Shell } from "@/components/shell";
 import { MemberPanel } from "@/features/membership/member-panel";

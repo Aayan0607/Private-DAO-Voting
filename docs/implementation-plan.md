@@ -74,3 +74,7 @@ Multiple DAOs, admission providers, richer proposal options and alternate EVM ne
 ## Phase 1.3 — 29 October 2026
 
 Implemented real browser-worker proof generation, verification, frozen group snapshots, choice/round binding, public proof download/import and local duplicate detection. See phase-1-3.md for validation and privacy boundaries. RPC and empty pairing-precompile checks passed; actual deployed-verifier compatibility and gas testing remain Phase 2.
+
+## Integrated MVP — 29 October 2026
+
+Phase 2 is implemented for a local EVM: server-persisted public membership snapshots, local proposal administration, browser proof generation using the contract scope, relay submission, on-chain confirmation, receipt recovery and public results. Phase 3 interface/operations/submission material is prepared. MST deployment remains unperformed because no funded wallet is available; localhost was accepted for this submission. A 2–3 minute narration and reproducible recording script are included, but the recording command was not approved and no video was generated. See validation.md for executed checks.

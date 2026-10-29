@@ -1,6 +1,6 @@
 # Architecture and boundaries
 
-## Planned flow
+## Implemented flow
 
 Member browser (private identity + local proof)
 → Relay (public ballot + proof only)
@@ -12,15 +12,15 @@ Admission is a separate administrator workflow. A proposal freezes its eligible 
 
 ## Foundation decisions
 
-- One Next.js application rather than multiple services before they are necessary. A future relay can begin as server-only route handlers and be extracted later.
+- One Next.js application rather than multiple services before they are necessary. The relay runs as server-only route handlers and can be extracted later.
 - Domain types do not import React, Next.js or Semaphore; this keeps UI and contract integration replaceable.
 - Unimplemented proposal previews are removed from the interface; no placeholder data enters transaction paths.
-- No wallet connection is required to browse. The future relay, not the registered member wallet, submits a ballot.
+- No wallet connection is required to browse. The relay submits ballots without asking members to connect a wallet.
 - Browser identity persistence and encrypted recovery are implemented as described in Phase 1.2 below.
-- Proof libraries and artifacts will be pinned together when installed.
+- Proof libraries and official artifacts are pinned and hash-checked.
 - No invented MST RPC URL, chain ID or verifier address. Configure only verified deployments.
 
-## Planned invariants
+## Enforced invariants
 
 1. A contract-approved, fixed membership root defines eligibility for the proposal.
 2. The contract derives/enforces the expected scope; clients cannot choose a fresh scope to vote twice.
@@ -40,7 +40,7 @@ The admission authority can admit multiple memberships and is trusted to apply e
 
 ## Validation scope
 
-Current tests cover identity persistence and recovery, encrypted-backup tampering, public group consistency, and voting domain boundaries. They do not establish zero-knowledge privacy or contract correctness; those modules are not implemented yet.
+Tests cover identity recovery, encrypted-backup tampering, public group consistency, real cryptographic proofs, contract enforcement and browser-to-relay-to-contract voting. Tests are evidence of exercised behavior, not a security audit or proof of complete anonymity.
 
 ## Tooling compatibility
 
@@ -56,8 +56,12 @@ ESLint is pinned to 9.39.5 because the React, import and accessibility plugins s
 - Public demo data persists separately in localStorage. Selection cannot silently overwrite an active identity. Reset keeps the active identity separate.
 - Placeholder proposal route, fictional ballot, progress cards and disabled feature controls were removed.
 - A same-major ws 8.21.0 override patches transitive websocket advisories introduced by the group package. No cryptographic implementation was replaced.
-- Phase 1.3 will add real proofs with these identity/group primitives; Rust is not required for the existing Semaphore JavaScript workflow.
+- Real proofs use these identity/group primitives; Rust is not required for the Semaphore JavaScript workflow.
 
 ## Phase 1.3
 
 The proof worker consumes the browser-held identity and an immutable local snapshot. Only public proofs return to the UI. All submitted proofs are checked against the selected choice, expected root/depth and canonical local scope before verification. A local receipt ledger demonstrates nullifier reuse checks, but is explicitly not a cross-tab/browser security authority. See phase-1-3.md.
+
+## Integrated voting
+
+The /vote route uses a separate contract-domain proof worker. The local /proof laboratory remains optional developer tooling and its local scope is never accepted by voting contracts. Public group snapshots are persisted by root on the server; proposals and results are read from the contract. The local administrator publishes snapshots and immutable proposals. Receipt hashes are stored per chain, contract, proposal and identity in the browser tab, then rechecked against actual transaction receipts. No server identity mapping is maintained. See operations.md for single-server deployment limits.

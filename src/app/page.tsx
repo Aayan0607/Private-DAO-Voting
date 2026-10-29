@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { Shell } from "@/components/shell";
 export default function Home() {
@@ -8,11 +9,12 @@ export default function Home() {
         <h1>
           A private identity.
           <br />
-          <em>A place in your community.</em>
+          <em>A verifiable community vote.</em>
         </h1>
         <p className="lead">
-          Set up the identity you’ll use for DAO membership. Your secret stays
-          on your device; only your public membership ID is shared.
+          Prove you belong to your DAO without linking your membership to your
+          ballot. Your secret stays on your device; the blockchain verifies
+          every vote.
         </p>
         <Link className="button primary start-button" href="/membership">
           Set up my membership <span aria-hidden="true">→</span>
@@ -28,21 +30,33 @@ export default function Home() {
           </li>
           <li>
             <span>02</span>
-            <strong>Keep it safe</strong>
-            <p>Save a password-protected recovery file for later.</p>
+            <strong>Prove you belong</strong>
+            <p>Back up your identity and prove eligibility for a proposal.</p>
           </li>
           <li>
             <span>03</span>
-            <strong>Check membership</strong>
-            <p>Share your public ID and check the local community group.</p>
+            <strong>Cast and verify</strong>
+            <p>
+              Submit your proof and see your confirmed vote in the public tally.
+            </p>
           </li>
         </ol>
+        <div className="actions" style={{ justifyContent: "center" }}>
+          <Link className="button secondary" href="/vote">
+            View proposals & results →
+          </Link>
+          {process.env.ENABLE_LOCAL_DEMO === "true" && (
+            <Link className="button secondary" href="/admin">
+              Prepare local demonstration →
+            </Link>
+          )}
+        </div>
         <div className="scope-note">
-          <strong>What you can try today</strong>
+          <strong>A transparent result. A private membership.</strong>
           <p>
-            Identity setup, encrypted recovery and local group membership.
-            Generate and verify real membership proofs in the local demo.
-            On-chain voting is not connected yet.
+            Real zero-knowledge proofs, contract-enforced voting and verifiable
+            receipts. Ballots are public; your membership-to-ballot link is
+            concealed.
           </p>
         </div>
       </section>
