@@ -394,11 +394,11 @@ function MemberWorkspace({ demoEnabled }: { demoEnabled: boolean }) {
             }
             {demoEnabled && (
               <div className="next-action">
-                <strong>Need a group to join?</strong>
+                <strong>Administrator step: approve your public ID</strong>
                 <p>
-                  For this local demonstration, create a group and add your
-                  public membership ID. Then return here to check your
-                  membership.
+                  Copy your public membership ID above. For this local
+                  demonstration, create a group and add your public membership
+                  ID. Then return here to check your membership.
                 </p>
                 <Link className="button secondary" href="/demo">
                   Set up the local group →

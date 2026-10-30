@@ -48,10 +48,17 @@ if (!(await ready())) {
   node.on("exit", () => {
     if (!stopping) stop();
   });
-  for (let n = 0; n < 30 && !(await ready()); n++)
+  const deadline = Date.now() + 90000;
+  while (Date.now() < deadline && !(await ready()))
     await new Promise((r) => setTimeout(r, 500));
-  if (!(await ready()))
-    throw new Error("Local chain could not start. Check port 8545.");
+  if (!(await ready())) {
+    console.error(
+      "Local chain could not start within 90 seconds. Check port 8545.",
+    );
+    stopping = true;
+    for (const child of children) child.kill();
+    process.exit(1);
+  }
 }
 const provider = new JsonRpcProvider(rpc);
 let deployed = false;

@@ -281,7 +281,7 @@ function Workspace({ demoEnabled }: { demoEnabled: boolean }) {
           <h2>Connect to voting</h2>
           <p>
             {error
-              ? "The voting service is unavailable. Once the local chain is running, try again."
+              ? "The voting service is unavailable. Keep the demo terminal running and retry. Your private identity stays in this tab."
               : "Loading proposals from the blockchain…"}
           </p>
           <button
@@ -370,6 +370,13 @@ function Workspace({ demoEnabled }: { demoEnabled: boolean }) {
                       </strong>
                     </div>
                   </div>
+                  {!open && (
+                    <p className="proof-message">
+                      {board.timestamp < proposal.opensAt
+                        ? "Voting has not opened yet. Return after the opening time and refresh results."
+                        : "The voting deadline has passed. Results remain available, but this proposal cannot accept another vote."}
+                    </p>
+                  )}
                   <div className="tally-grid" aria-label="Confirmed results">
                     <div>
                       <span>Yes</span>
@@ -411,6 +418,12 @@ function Workspace({ demoEnabled }: { demoEnabled: boolean }) {
                       {receipt?.status === "confirmed" ? (
                         <div className="verified-proof">
                           <h3>Vote confirmed</h3>
+                          <p>
+                            The contract has accepted this vote. This identity
+                            cannot vote again on this proposal, even from
+                            another browser. It can participate in other
+                            proposals.
+                          </p>
                           <p>
                             Your {receipt.choice === 1 ? "Yes" : "No"} vote was
                             recorded in block {receipt.blockNumber}.
@@ -531,6 +544,26 @@ function Workspace({ demoEnabled }: { demoEnabled: boolean }) {
                   )}
                   <details>
                     <summary>Verify the proposal’s public details</summary>
+                    <p>
+                      The membership root is a fingerprint of the approved list.
+                      The scope binds this proof to one proposal and deployment.
+                      Neither can be changed by a voter.
+                    </p>
+                    {proposal.snapshot && (
+                      <details>
+                        <summary>
+                          View the frozen membership list (
+                          {proposal.snapshot.commitments.length})
+                        </summary>
+                        <ol className="commitment-list">
+                          {proposal.snapshot.commitments.map((member) => (
+                            <li key={member}>
+                              <code>{member}</code>
+                            </li>
+                          ))}
+                        </ol>
+                      </details>
+                    )}
                     <p>
                       Contract: <code>{board.address}</code>
                     </p>

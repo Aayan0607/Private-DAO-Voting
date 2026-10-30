@@ -23,9 +23,11 @@ export function Shell({
           </span>
         </div>
         <span className="header-caption">
-          {active === "/demo"
-            ? "Local group administration"
-            : "Private membership, one step at a time"}
+          {active === "/demo" || active === "/admin"
+            ? "Administrator · approve members and publish proposals"
+            : active === "/vote"
+              ? "Member · prove eligibility and vote"
+              : "Member · identity and recovery"}
         </span>
       </header>
       <main id="main">{children}</main>

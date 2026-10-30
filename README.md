@@ -6,7 +6,7 @@ A working local blockchain MVP for DAO advisory decisions. Members prove eligibi
 
 ## Quick start — no wallet or Rust needed
 
-Requires Node.js 22.14+ and npm. On Windows use npm.cmd if PowerShell blocks npm.ps1.
+Requires Node.js 24.x, npm and internet access for the initial installation and proof-artifact download. On Windows use npm.cmd if PowerShell blocks npm.ps1.
 
     npm ci
     npm run demo:start
@@ -22,7 +22,11 @@ For separate terminals:
 
 The local blockchain is in memory. Restarting it erases its proposals and votes; redeploy, then publish fresh proposals. Browser identities and encrypted backups are separate. Never fund the publicly known local development accounts on a live network.
 
-## Full demonstration
+## First-time member walkthrough
+
+Create your own identity through **Set up my membership**, save its encrypted backup and copy its public membership ID. Follow **Set up the local group**, create the five-member demo and approve your copied ID. Keep your own identity active; do not select a test member. Continue to proposal setup, publish, then open voting. The header identifies whether you are acting as a member or administrator.
+
+## Alternative: use a generated test member
 
 1. Choose **Prepare local demonstration** on the home page.
 2. Open group setup and **Create five-member demo**. Select **Use member 1**.
@@ -54,7 +58,7 @@ Tests cover encrypted backup recovery, the uncontrolled/controlled input regress
 - **Server:** Next route handlers + ethers; bounded JSON requests, origin checks, serialized relay submission, preflight contract verification. Only public proof data is submitted.
 - **Storage:** public membership snapshots on disk; tally and accepted votes on chain. The snapshot is recomputed and checked against the contract before proof generation.
 
-See [operations and boundaries](docs/operations.md), [demo narration](docs/demo-script.md), and [submission description](docs/submission.md).
+See [Vercel configuration and deployment prerequisites](VERCEL-SETUP.md). Local working notes in docs/ are intentionally excluded from Git.
 
 ## Scope and privacy
 
@@ -62,6 +66,46 @@ This is a **local, single-server hackathon prototype**, not a production governa
 
 Identity secrets are plaintext in sessionStorage and must remain on a trusted origin; same-origin scripts and browser access can expose them. Backups use AES-256-GCM and PBKDF2-SHA256 with 310,000 iterations. There is no password recovery. Closing a tab is not guaranteed secure erasure.
 
-MST deployment has not been performed; a funded testnet wallet and compatibility checks are needed. Vercel frontend hosting alone cannot run the local chain. Network settings are server-only and configurable for later deployment, but the current file-based registry and in-memory relay limits require a persistent single server. See the operations guide before hosting.
+MST deployment has not been performed; a funded testnet wallet and compatibility checks are needed. Vercel frontend hosting alone cannot run the local chain. Network settings are server-only and configurable for later deployment, but the current file-based registry and in-memory relay limits require a persistent single server. Hosted preparation supports an environment-based public snapshot registry and shared Redis relay coordination; these services and a funded testnet deployment are not configured for the submitted hosted frontend.
 
-Production dependencies have no known vulnerabilities in the latest checked audit; Hardhat/solc development dependencies retain 19 advisories, documented in docs/phase-2-1.md. Do not use a forced dependency upgrade without retesting the toolchain.
+Production dependencies have no known vulnerabilities in the latest checked audit; Hardhat/solc development dependencies retain 19 advisories, in the last recorded full audit. Do not use a forced dependency upgrade without retesting the toolchain.
+
+## Submission and reviewer access
+
+- Author: Aayan Tamboli; solo participant, Team Stupefy.
+- Repository: https://github.com/Aayan0607/Private-DAO-Voting
+- Hosted frontend: https://private-dao-voting-xi.vercel.app/
+- Functional evaluation: clone this repository, run npm ci and npm run demo:start, and follow the demonstration above. No private credentials or real wallet are needed locally.
+- MST deployment: not performed. The hosted frontend is not connected to a working public voting deployment. Local addresses are not MST contract addresses.
+- Start with fresh browser data; identities, proposals and votes from the author's laptop are not included in the source repository. Keep the local chain running during evaluation.
+- Stop both the app and local chain before reinstalling dependencies on Windows to avoid native-module file locks.
+
+The application-specific workflow, interface, voting wrapper and integration are submitted as the team's project. Third-party cryptography and tooling are credited below; Semaphore's circuits, verifier and proving artifacts are not claimed as original team inventions. Organizers can inspect the implementation under src/, contracts/, scripts/ and tests/.
+
+## Third-party credits and licenses
+
+The principal dependencies and package-declared licenses are:
+
+| Resource                                                                                                  | Use                                                                                           | License                                                                 |
+| --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| [Semaphore](https://github.com/semaphore-protocol/semaphore), packages 4.14.5                             | Identity, membership groups, proof generation/verification and Solidity verifier              | MIT                                                                     |
+| [Official Semaphore artifacts](https://snark-artifacts.pse.dev/semaphore/4.13.0), version 4.13.0, depth 6 | Upstream WASM and proving key; downloaded and hash-checked using scripts/proof-artifacts.json | Upstream Semaphore resources; retain applicable upstream terms          |
+| [Next.js](https://github.com/vercel/next.js)                                                              | Web framework and server routes                                                               | MIT                                                                     |
+| [React](https://github.com/facebook/react)                                                                | User interface                                                                                | MIT                                                                     |
+| [ethers](https://github.com/ethers-io/ethers.js)                                                          | Blockchain reads and transactions                                                             | MIT                                                                     |
+| [Hardhat](https://github.com/NomicFoundation/hardhat)                                                     | Local EVM and contract testing                                                                | MIT                                                                     |
+| [solc-js](https://github.com/ethereum/solc-js)                                                            | Solidity compilation                                                                          | MIT package wrapper; compiler components retain their upstream licenses |
+| [Playwright](https://github.com/microsoft/playwright)                                                     | Browser testing                                                                               | Apache-2.0                                                              |
+
+Additional direct and transitive dependencies are recorded in package.json and package-lock.json. Their copyright notices and license files remain with the installed packages; this README does not replace those terms or relicense third-party resources. Vercel provides frontend hosting; prepared hosted relay coordination uses the Upstash Redis REST service. These services do not imply an MST deployment or endorsement.
+
+## Reviewer edge-case checklist
+
+- Refresh after a confirmed vote: receipt and tally persist.
+- Restore the same encrypted identity in a fresh browser session and vote on the same proposal: submission is rejected, including when the choice changes.
+- Create an unapproved identity: voting controls are unavailable for that proposal.
+- Admit that identity after publication: the original proposal remains ineligible; a new proposal with the updated group permits participation.
+- Expand the proposal details to inspect the frozen public membership list, root, scope and contract address.
+- The submit screen distinguishes a pending transaction from a confirmed vote. If a connection fails after submission, check the receipt and results before retrying.
+
+Part 1 verification includes a clean source snapshot installation and production build without local secrets or data. The launcher allows up to 90 seconds for blockchain startup on slower machines. Tests report specific exercised cases; they do not constitute a security audit.

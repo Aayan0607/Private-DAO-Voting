@@ -323,7 +323,7 @@ export async function relay(body: Record<string, unknown>) {
     throw new ApiError("Voting is not open.");
   if (await c.contract.usedNullifiers(id, proof.nullifier))
     throw new ApiError(
-      "This membership has already voted on this proposal.",
+      "This membership has already voted on this proposal. Your first accepted vote remains counted; choose another proposal to vote again.",
       409,
     );
   const signer = c.local

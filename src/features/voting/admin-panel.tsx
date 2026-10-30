@@ -15,6 +15,11 @@ export function AdminPanel() {
       <section className="panel">
         <p className="eyebrow">Local administrator</p>
         <h2>Publish a community decision</h2>
+        <p className="role-guide">
+          You are acting as the administrator. Approve the member’s public ID
+          first, then publish. Creating an identity alone does not grant voting
+          access.
+        </p>
         <p>
           First approve members in the local group. Publishing freezes that
           membership list in the contract. Later changes apply only to future
@@ -78,7 +83,7 @@ export function AdminPanel() {
             Voting opens immediately. The title, deadline and eligible group
             cannot be edited after publication.
           </p>
-          <button className="button primary" disabled={busy}>
+          <button className="button primary" disabled={busy || !!hash}>
             {busy ? "Publishing to the blockchain…" : "2. Publish proposal"}
           </button>
         </form>
@@ -93,11 +98,26 @@ export function AdminPanel() {
               <p className="proof-message success-message">
                 Proposal confirmed on the local blockchain.
               </p>
-              <code>{hash}</code>
+              <p>
+                This is the publication transaction. Open voting to inspect the
+                frozen group, deadline and results.
+              </p>
+              <code className="transaction-hash">{hash}</code>
               <div className="actions">
                 <Link className="button primary" href="/vote">
                   3. Open voting →
                 </Link>
+                <button
+                  type="button"
+                  className="button secondary"
+                  onClick={() => {
+                    setHash("");
+                    setTitle("");
+                    setError("");
+                  }}
+                >
+                  Create another proposal
+                </button>
               </div>
             </>
           )}
