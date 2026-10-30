@@ -19,3 +19,7 @@ test-results/
 demo-media/
 
 docs/
+
+# Personal presentation and submission notes (keep local only)
+/DEMO-GUIDE.md
+/SUBMISSION.md
