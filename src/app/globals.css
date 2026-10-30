@@ -1267,3 +1267,18 @@ footer {
   background: #0a1424;
   border-radius: 8px;
 }
+
+.preview-notice {
+  border-color: #8062c2;
+  background: #211c37;
+  margin-top: 24px;
+}
+.preview-notice strong {
+  color: #d8c4ff;
+}
+.preview-result {
+  background: #211c37;
+  border: 1px solid #8062c2;
+  color: #e0ceff !important;
+  margin-top: 24px;
+}

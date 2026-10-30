@@ -24,3 +24,7 @@ A funded testnet administrator wallet, verifier and voting-contract deployment, 
 ## Smoke check after configuration
 
 Open /api/voting: verify the intended chain, address and proposal. Create or restore an approved identity, generate a proof, submit, and check the transaction on the target chain. Retry the same identity to confirm rejection. Verify /admin and /demo return 404. Confirm unrelated origins are rejected. Never describe a hosted frontend with an unavailable backend as a functioning public voting deployment.
+
+## Preview-only hosting (current submission)
+
+Set ENABLE_LOCAL_DEMO=false and APP_ORIGIN to your exact Vercel origin. Leave blockchain and relay credentials unset. The home page offers the labelled interactive simulation, /vote redirects to /preview, and /about explains real local evaluation. Redis and a wallet are not needed for this preview. Push the changes and redeploy to publish it.

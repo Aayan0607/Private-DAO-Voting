@@ -109,3 +109,9 @@ Additional direct and transitive dependencies are recorded in package.json and p
 - The submit screen distinguishes a pending transaction from a confirmed vote. If a connection fails after submission, check the receipt and results before retrying.
 
 Part 1 verification includes a clean source snapshot installation and production build without local secrets or data. The launcher allows up to 90 seconds for blockchain startup on slower machines. Tests report specific exercised cases; they do not constitute a security audit.
+
+## Online interactive preview
+
+The hosted site offers a clearly labelled simulation at /preview and an architecture guide at /about. With no hosted contract configured, the Vercel home page leads to this preview and /vote redirects there. Sample approval, publication, voting, duplicate rejection and late admission are simulated in page memory only. No proof, wallet request, blockchain transaction or transaction receipt is created. Resetting the preview never changes real membership or voting state.
+
+For technical evaluation, run the local MVP and its real proof/contract tests. A working frontend preview does not imply an MST deployment. The preview is separate from the real voting interface and its API.

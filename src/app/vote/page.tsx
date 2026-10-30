@@ -1,7 +1,10 @@
 export const dynamic = "force-dynamic";
+import { redirect } from "next/navigation";
 import { Shell } from "@/components/shell";
 import { VotePanel } from "@/features/voting/vote-panel";
 export default function VotePage() {
+  if (process.env.VERCEL === "1" && !process.env.VOTING_CONTRACT_ADDRESS)
+    redirect("/preview");
   return (
     <Shell active="/vote">
       <section className="workflow-intro">

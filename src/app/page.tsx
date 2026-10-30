@@ -2,6 +2,8 @@ export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { Shell } from "@/components/shell";
 export default function Home() {
+  const hostedPreview =
+    process.env.VERCEL === "1" && !process.env.VOTING_CONTRACT_ADDRESS;
   return (
     <Shell active="/">
       <section className="welcome">
@@ -16,9 +18,25 @@ export default function Home() {
           ballot. Your secret stays on your device; the blockchain verifies
           every vote.
         </p>
-        <Link className="button primary start-button" href="/membership">
-          Set up my membership <span aria-hidden="true">→</span>
+        <Link
+          className="button primary start-button"
+          href={hostedPreview ? "/preview" : "/membership"}
+        >
+          {hostedPreview
+            ? "Explore interactive preview"
+            : "Set up my membership"}{" "}
+          <span aria-hidden="true">→</span>
         </Link>
+        {hostedPreview && (
+          <aside className="boundary preview-notice">
+            <strong>Hosted preview · simulated transactions</strong>
+            <p>
+              The complete blockchain MVP runs locally. Explore sample
+              interactions here, or use the repository to verify real proofs and
+              voting.
+            </p>
+          </aside>
+        )}
         <p className="welcome-hint">
           Already started? You can restore your identity in the first step.
         </p>
@@ -42,8 +60,13 @@ export default function Home() {
           </li>
         </ol>
         <div className="actions" style={{ justifyContent: "center" }}>
-          <Link className="button secondary" href="/vote">
-            View proposals & results →
+          <Link
+            className="button secondary"
+            href={hostedPreview ? "/about" : "/vote"}
+          >
+            {hostedPreview
+              ? "Architecture & local setup →"
+              : "View proposals & results →"}
           </Link>
           {process.env.VERCEL !== "1" &&
             process.env.ENABLE_LOCAL_DEMO === "true" && (
@@ -51,6 +74,14 @@ export default function Home() {
                 Prepare local demonstration →
               </Link>
             )}
+        </div>
+        <div className="actions" style={{ justifyContent: "center" }}>
+          <Link className="back-link" href="/preview">
+            Explore simulated workflow →
+          </Link>
+          <Link className="back-link" href="/about">
+            How it works →
+          </Link>
         </div>
         <div className="scope-note">
           <strong>A transparent result. A private membership.</strong>
