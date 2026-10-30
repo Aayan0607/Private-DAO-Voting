@@ -8,7 +8,8 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 export default function Demo() {
-  if (process.env.ENABLE_LOCAL_DEMO !== "true") notFound();
+  if (process.env.VERCEL === "1" || process.env.ENABLE_LOCAL_DEMO !== "true")
+    notFound();
   return (
     <Shell active="/demo">
       <section className="page-intro">

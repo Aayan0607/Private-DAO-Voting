@@ -5,7 +5,8 @@ import { Shell } from "@/components/shell";
 import { ProofPanel } from "@/features/proofs/proof-panel";
 export const metadata: Metadata = { title: "Prove your membership" };
 export default function ProofPage() {
-  if (process.env.ENABLE_LOCAL_DEMO !== "true") notFound();
+  if (process.env.VERCEL === "1" || process.env.ENABLE_LOCAL_DEMO !== "true")
+    notFound();
   return (
     <Shell active="/proof">
       <section className="workflow-intro">

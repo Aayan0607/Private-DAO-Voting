@@ -11,7 +11,11 @@ export default function VotePage() {
         </h1>
         <p>Prove you belong, cast a ballot and verify the result.</p>
       </section>
-      <VotePanel demoEnabled={process.env.ENABLE_LOCAL_DEMO === "true"} />
+      <VotePanel
+        demoEnabled={
+          process.env.VERCEL !== "1" && process.env.ENABLE_LOCAL_DEMO === "true"
+        }
+      />
     </Shell>
   );
 }

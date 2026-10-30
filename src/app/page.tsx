@@ -45,11 +45,12 @@ export default function Home() {
           <Link className="button secondary" href="/vote">
             View proposals & results →
           </Link>
-          {process.env.ENABLE_LOCAL_DEMO === "true" && (
-            <Link className="button secondary" href="/admin">
-              Prepare local demonstration →
-            </Link>
-          )}
+          {process.env.VERCEL !== "1" &&
+            process.env.ENABLE_LOCAL_DEMO === "true" && (
+              <Link className="button secondary" href="/admin">
+                Prepare local demonstration →
+              </Link>
+            )}
         </div>
         <div className="scope-note">
           <strong>A transparent result. A private membership.</strong>

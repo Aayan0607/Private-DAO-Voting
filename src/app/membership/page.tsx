@@ -15,7 +15,11 @@ export default function Membership() {
           Follow the steps below. Your private identity stays in this browser.
         </p>
       </section>
-      <MemberPanel demoEnabled={process.env.ENABLE_LOCAL_DEMO === "true"} />
+      <MemberPanel
+        demoEnabled={
+          process.env.VERCEL !== "1" && process.env.ENABLE_LOCAL_DEMO === "true"
+        }
+      />
     </Shell>
   );
 }

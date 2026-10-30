@@ -34,7 +34,9 @@ let requests = 0,
   resetAt = 0;
 export async function connection() {
   const local =
-    process.env.ENABLE_LOCAL_DEMO === "true" && !process.env.VOTING_RPC_URL;
+    process.env.VERCEL !== "1" &&
+    process.env.ENABLE_LOCAL_DEMO === "true" &&
+    !process.env.VOTING_RPC_URL;
   let address = process.env.VOTING_CONTRACT_ADDRESS;
   const chainId = local ? 31337 : Number(process.env.VOTING_CHAIN_ID);
   if (local) {
@@ -52,7 +54,12 @@ export async function connection() {
       );
     }
   }
-  if (!address || !Number.isSafeInteger(chainId) || chainId < 1)
+  if (
+    !address ||
+    (!local && !process.env.VOTING_RPC_URL) ||
+    !Number.isSafeInteger(chainId) ||
+    chainId < 1
+  )
     throw new ApiError("Voting deployment is not configured.", 503);
   if (!provider) {
     const transport = new FetchRequest(
@@ -89,13 +96,19 @@ export async function board(): Promise<Board> {
     let snapshot = null;
     try {
       snapshot = readSnapshot(
-        await readFile(
-          path.join(
-            /* turbopackIgnore: true */ dataDir(),
-            p.root.toString() + ".json",
-          ),
-          "utf8",
-        ),
+        process.env.VERCEL === "1"
+          ? JSON.stringify(
+              JSON.parse(process.env.VOTING_SNAPSHOTS_JSON || "{}")[
+                p.root.toString()
+              ],
+            )
+          : await readFile(
+              path.join(
+                /* turbopackIgnore: true */ dataDir(),
+                p.root.toString() + ".json",
+              ),
+              "utf8",
+            ),
       );
       if (snapshot.root !== p.root.toString()) snapshot = null;
     } catch {}
@@ -176,7 +189,62 @@ export async function jsonBody(request: Request) {
     throw new ApiError("Invalid JSON.");
   }
 }
+async function redis(command: (string | number)[]) {
+  if (
+    !process.env.UPSTASH_REDIS_REST_URL ||
+    !process.env.UPSTASH_REDIS_REST_TOKEN
+  )
+    throw new ApiError(
+      "The hosted relay requires shared request coordination.",
+      503,
+    );
+  const response = await fetch(process.env.UPSTASH_REDIS_REST_URL, {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer " + process.env.UPSTASH_REDIS_REST_TOKEN,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(command),
+    signal: AbortSignal.timeout(5000),
+  });
+  const data = await response.json();
+  if (!response.ok || data.error)
+    throw new ApiError("Relay coordination unavailable.", 503);
+  return data.result;
+}
 export async function exclusive<T>(work: () => Promise<T>): Promise<T> {
+  if (process.env.VERCEL === "1") {
+    const key =
+      "pdv:relay:" +
+      process.env.VOTING_CHAIN_ID +
+      ":" +
+      process.env.VOTING_CONTRACT_ADDRESS;
+    const count = await redis([
+      "EVAL",
+      "local n=redis.call('INCR',KEYS[1]); if n==1 then redis.call('EXPIRE',KEYS[1],60) end; return n",
+      1,
+      key + ":rate",
+    ]);
+    if (Number(count) > 30)
+      throw new ApiError("Relay limit reached. Retry in a minute.", 429);
+    const token = crypto.randomUUID();
+    if ((await redis(["SET", key, token, "NX", "EX", 120])) !== "OK")
+      throw new ApiError(
+        "The relay is processing another vote. Retry shortly.",
+        429,
+      );
+    try {
+      return await work();
+    } finally {
+      await redis([
+        "EVAL",
+        "if redis.call('GET',KEYS[1])==ARGV[1] then return redis.call('DEL',KEYS[1]) else return 0 end",
+        1,
+        key,
+        token,
+      ]).catch(() => {});
+    }
+  }
   if (locked)
     throw new ApiError(
       "The relay is processing another request. Please retry shortly.",
