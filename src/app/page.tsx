@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { Shell } from "@/components/shell";
+import { NetworkArt } from "@/components/network-art";
 export default function Home() {
   const hostedPreview =
     process.env.VERCEL === "1" && !process.env.VOTING_CONTRACT_ADDRESS;
@@ -40,6 +41,7 @@ export default function Home() {
         <p className="welcome-hint">
           Already started? You can restore your identity in the first step.
         </p>
+        <NetworkArt />
         <ol className="journey">
           <li>
             <span>01</span>
