@@ -17,3 +17,5 @@ data/
 playwright-report/
 test-results/
 demo-media/
+
+docs/

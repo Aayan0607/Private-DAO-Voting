@@ -127,7 +127,21 @@ export async function board(): Promise<Board> {
 export function checkOrigin(request: Request, localOnly = false) {
   const origin = request.headers.get("origin");
   const allowed = process.env.APP_ORIGIN || new URL(request.url).origin;
-  if (origin !== allowed)
+  const loopback = (url: URL) =>
+    ["localhost", "127.0.0.1", "[::1]"].includes(url.hostname);
+  let localAlias = false;
+  try {
+    const source = new URL(origin || "invalid"),
+      target = new URL(allowed);
+    localAlias =
+      process.env.ENABLE_LOCAL_DEMO === "true" &&
+      !process.env.APP_ORIGIN &&
+      loopback(source) &&
+      loopback(target) &&
+      source.protocol === target.protocol &&
+      source.port === target.port;
+  } catch {}
+  if (!origin || (origin !== allowed && !localAlias))
     throw new ApiError("This request must come from the voting website.", 403);
   if (
     localOnly &&

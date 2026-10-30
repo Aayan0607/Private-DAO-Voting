@@ -311,8 +311,8 @@ function Workspace() {
               </div>
               <p className="stage-note">
                 Duplicate protection here uses browser storage. Clearing storage
-                or using another browser bypasses that local record. The
-                contract will enforce it in Phase 2.
+                or using another browser bypasses that local record. The voting
+                contract enforces duplicate protection in the voting workflow.
               </p>
               <details>
                 <summary>View public proof data</summary>

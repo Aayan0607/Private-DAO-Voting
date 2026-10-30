@@ -5,7 +5,7 @@ const directory = new URL(
   import.meta.url,
 );
 await mkdir(directory, { recursive: true });
-const manifestPath = new URL("../docs/proof-artifacts.json", import.meta.url);
+const manifestPath = new URL("./proof-artifacts.json", import.meta.url);
 let manifest;
 try {
   manifest = JSON.parse(await readFile(manifestPath, "utf8"));
